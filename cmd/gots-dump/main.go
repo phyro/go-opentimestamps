@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/BlockchainSource/go-opentimestamps/opentimestamps"
+	"github.com/phyro/go-opentimestamps/opentimestamps"
 )
 
 func main() {

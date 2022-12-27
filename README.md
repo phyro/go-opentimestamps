@@ -4,6 +4,8 @@ Go port of https://github.com/opentimestamps/python-opentimestamps.
 
 Developed by Blockchain Source GmbH
 
+_NOTE: This is a fork with the intent to expose some functionality._
+
 # Done
 
 * Byte-level serialization format

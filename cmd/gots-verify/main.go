@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/BlockchainSource/go-opentimestamps/opentimestamps"
-	"github.com/BlockchainSource/go-opentimestamps/opentimestamps/client"
 	"github.com/btcsuite/btcrpcclient"
+	"github.com/phyro/go-opentimestamps/opentimestamps"
+	"github.com/phyro/go-opentimestamps/opentimestamps/client"
 )
 
 func newBtcConn(host, user, pass string) (*btcrpcclient.Client, error) {

@@ -187,6 +187,10 @@ var (
 	opSHA256    = newCryptOp(0x08, "SHA256", msgSHA256, 32)
 )
 
+func GetSHA256Op(name string) *cryptOp {
+	return opSHA256
+}
+
 var opCodes []opCode = []opCode{
 	opAppend, opPrepend, opReverse, opHexlify, opSHA1, opRIPEMD160,
 	opSHA256,
