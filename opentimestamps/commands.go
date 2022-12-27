@@ -25,11 +25,10 @@ func CreateDetachedTimestampForFile(
 	return NewDetachedTimestamp(*opSHA256, digest, ts)
 }
 
-func CreateDetachedTimestampForHash(digest string, cal *RemoteCalendar) (*DetachedTimestamp, error) {
-	digest_bytearr := []byte(digest)
-	ts, err := cal.Submit(digest_bytearr)
+func CreateDetachedTimestampForHash(digest []byte, cal *RemoteCalendar) (*DetachedTimestamp, error) {
+	ts, err := cal.Submit(digest)
 	if err != nil {
 		return nil, err
 	}
-	return NewDetachedTimestamp(*opSHA256, digest_bytearr, ts)
+	return NewDetachedTimestamp(*opSHA256, digest, ts)
 }
