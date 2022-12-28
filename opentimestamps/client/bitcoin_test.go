@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btcsuite/btcrpcclient"
+	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/phyro/go-opentimestamps/opentimestamps"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -15,7 +15,7 @@ import (
 
 const envvarRPCURL = "GOTS_TEST_BITCOIN_RPC"
 
-func newTestBTCConn() (*btcrpcclient.Client, error) {
+func newTestBTCConn() (*rpcclient.Client, error) {
 	val := os.Getenv(envvarRPCURL)
 	if val == "" {
 		return nil, fmt.Errorf("envvar %q unset", envvarRPCURL)
@@ -37,14 +37,14 @@ func newTestBTCConn() (*btcrpcclient.Client, error) {
 		return nil, fmt.Errorf("no password given in RPC URL")
 	}
 
-	connCfg := &btcrpcclient.ConnConfig{
+	connCfg := &rpcclient.ConnConfig{
 		Host:         host,
 		User:         username,
 		Pass:         password,
 		HTTPPostMode: true,
 		DisableTLS:   true,
 	}
-	return btcrpcclient.New(connCfg, nil)
+	return rpcclient.New(connCfg, nil)
 }
 
 func TestVerifyHelloWorld(t *testing.T) {

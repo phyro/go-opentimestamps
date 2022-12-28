@@ -5,18 +5,18 @@ import (
 	"math"
 	"time"
 
-	"github.com/btcsuite/btcrpcclient"
+	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/phyro/go-opentimestamps/opentimestamps"
 )
 
 // A BitcoinAttestationVerifier uses a bitcoin RPC connection to verify bitcoin
 // headers.
 type BitcoinAttestationVerifier struct {
-	btcrpcClient *btcrpcclient.Client
+	rpcClient *rpcclient.Client
 }
 
 func NewBitcoinAttestationVerifier(
-	c *btcrpcclient.Client,
+	c *rpcclient.Client,
 ) *BitcoinAttestationVerifier {
 	return &BitcoinAttestationVerifier{c}
 }
@@ -30,11 +30,11 @@ func (v *BitcoinAttestationVerifier) VerifyAttestation(
 	if a.Height > math.MaxInt64 {
 		return nil, fmt.Errorf("illegal block height")
 	}
-	blockHash, err := v.btcrpcClient.GetBlockHash(int64(a.Height))
+	blockHash, err := v.rpcClient.GetBlockHash(int64(a.Height))
 	if err != nil {
 		return nil, err
 	}
-	h, err := v.btcrpcClient.GetBlockHeader(blockHash)
+	h, err := v.rpcClient.GetBlockHeader(blockHash)
 	if err != nil {
 		return nil, err
 	}

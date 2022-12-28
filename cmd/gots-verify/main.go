@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/btcsuite/btcrpcclient"
+	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/phyro/go-opentimestamps/opentimestamps"
 	"github.com/phyro/go-opentimestamps/opentimestamps/client"
 )
 
-func newBtcConn(host, user, pass string) (*btcrpcclient.Client, error) {
-	connCfg := &btcrpcclient.ConnConfig{
+func newBtcConn(host, user, pass string) (*rpcclient.Client, error) {
+	connCfg := &rpcclient.ConnConfig{
 		Host:         host,
 		User:         user,
 		Pass:         pass,
 		HTTPPostMode: true,
 		DisableTLS:   true,
 	}
-	return btcrpcclient.New(connCfg, nil)
+	return rpcclient.New(connCfg, nil)
 }
 
 var (
