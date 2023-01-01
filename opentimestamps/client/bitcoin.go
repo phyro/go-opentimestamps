@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"math"
 	"time"
@@ -62,6 +63,13 @@ type BitcoinVerification struct {
 	Error           error
 }
 
+// A BitcoinVerificationManual holds data needed for manual verification
+type BitcoinVerificationManual struct {
+	// Attestation time is the block header timestamp
+	Height             uint64
+	ExpectedMerkleRoot []byte
+}
+
 // BitcoinVerifications returns the all bitcoin attestation results for the
 // timestamp.
 func (v *BitcoinAttestationVerifier) BitcoinVerifications(
@@ -101,4 +109,36 @@ func (v *BitcoinAttestationVerifier) Verify(
 		}
 	}
 	return
+}
+
+// Verify returns pairs (height, expected_merkle_root) or nil.
+func (v *BitcoinAttestationVerifier) VerifyManual(
+	t *opentimestamps.Timestamp,
+) ([]BitcoinVerificationManual, error) {
+	res := v.BitcoinVerificationsManual(t)
+	if len(res) == 0 {
+		return nil, errors.New("No attestations found.")
+	}
+	return res, nil
+}
+
+// BitcoinVerificationsManual returns all bitcoin attestation pairs
+// (height, expected_merkle_root)
+func (v *BitcoinAttestationVerifier) BitcoinVerificationsManual(
+	t *opentimestamps.Timestamp,
+) []BitcoinVerificationManual {
+	res := []BitcoinVerificationManual{}
+	t.Walk(func(ts *opentimestamps.Timestamp) {
+		for _, att := range ts.Attestations {
+			btcAtt, ok := att.(*opentimestamps.BitcoinAttestation)
+			if !ok {
+				continue
+			}
+			res = append(res, BitcoinVerificationManual{
+				Height:             btcAtt.Height,
+				ExpectedMerkleRoot: ts.Message,
+			})
+		}
+	})
+	return res
 }
