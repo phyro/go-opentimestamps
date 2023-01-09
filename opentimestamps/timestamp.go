@@ -114,6 +114,10 @@ func (t *Timestamp) Dump() string {
 	return t.DumpWithConfig(defaultDumpConfig)
 }
 
+func (t *Timestamp) WriteToStream(w io.Writer) error {
+	return t.encode(&serializationContext{w})
+}
+
 func parseTagOrAttestation(
 	ts *Timestamp,
 	ctx *deserializationContext,
